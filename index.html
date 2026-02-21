@@ -6,92 +6,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
-    --primary:#1b8f4d;
-    --primary-dark:#0f6b37;
-    --light:#f4fbf7;
-    --danger:#c62828;
-    --warning:#ef6c00;
+--primary:#0f9d58;
+--dark:#0b6e3d;
+--light:#f1fbf5;
+--danger:#c62828;
 }
 *{box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 body{
-    margin:0;
-    background:linear-gradient(135deg,#e6f4ea,#ffffff);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+margin:0;
+background:linear-gradient(135deg,#e8f5e9,#ffffff);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
 }
 .container{
-    width:720px;
-    background:#fff;
-    border-radius:25px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.12);
-    overflow:hidden;
-    position:relative;
+width:800px;
+background:#fff;
+border-radius:25px;
+box-shadow:0 20px 60px rgba(0,0,0,0.12);
+overflow:hidden;
 }
 .header{
-    background:linear-gradient(90deg,var(--primary),var(--primary-dark));
-    color:white;
-    padding:30px;
-    text-align:center;
+background:linear-gradient(90deg,var(--primary),var(--dark));
+color:white;
+padding:30px;
+text-align:center;
 }
-.header h1{margin:0;font-size:24px}
-.progress{
-    height:6px;
-    background:#e0e0e0;
-}
-.progress-bar{
-    height:6px;
-    width:0%;
-    background:var(--primary);
-    transition:0.4s;
-}
-.section{
-    display:none;
-    padding:35px;
-    animation:fade 0.5s ease;
-}
+.section{display:none;padding:35px;animation:fade .5s ease}
 .section.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-input,select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:14px;
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+h2{color:var(--primary)}
+input[type=text],input[type=number]{
+width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ccc
 }
+
+.question{
+margin:15px 0;
+padding:15px;
+background:#f8fdf9;
+border-radius:12px;
+}
+.question label{display:block;margin-bottom:8px;font-weight:500}
+.options{
+display:flex;
+gap:20px;
+}
+.options label{
+display:flex;
+align-items:center;
+gap:6px;
+cursor:pointer;
+}
+
 button{
-    background:var(--primary);
-    color:white;
-    border:none;
-    padding:12px 28px;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:600;
-    margin-top:15px;
-    transition:0.3s;
+background:var(--primary);
+color:#fff;
+border:none;
+padding:12px 30px;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+margin-top:20px;
+transition:.3s;
 }
-button:hover{background:var(--primary-dark)}
-.result-box{
-    padding:20px;
-    border-radius:15px;
-    margin-top:20px;
+button:hover{background:var(--dark)}
+
+.circle{
+width:180px;
+height:180px;
+border-radius:50%;
+background:conic-gradient(var(--primary) 0deg,#e0e0e0 0deg);
+display:flex;
+justify-content:center;
+align-items:center;
+margin:20px auto;
+font-size:28px;
+font-weight:bold;
+color:var(--primary);
 }
-.low{background:#e8f5e9}
-.medium{background:#fff3e0}
-.high{background:#ffebee}
+
 .notice{
-    margin-top:20px;
-    font-weight:700;
-    font-size:20px;
-    text-align:center;
-    color:var(--danger);
+font-weight:700;
+font-size:20px;
+color:var(--danger);
+text-align:center;
+margin-top:20px;
 }
-.footer{
-    text-align:center;
-    padding:25px;
-    background:var(--light);
+
+.thank{
+text-align:center;
+padding:40px;
 }
 </style>
 </head>
@@ -100,122 +106,146 @@ button:hover{background:var(--primary-dark)}
 <div class="container">
 
 <div class="header">
-<h1>Hãy để chúng tôi kiểm tra sức khoẻ bạn nhé</h1>
+<h1>Hệ thống sàng lọc nguy cơ đột quỵ</h1>
 </div>
-
-<div class="progress"><div class="progress-bar" id="bar"></div></div>
 
 <!-- STEP 1 -->
 <div class="section active" id="step1">
 <h2>Thông tin cơ bản</h2>
-<input type="text" id="name" placeholder="Nhập tên của bạn">
+<input type="text" id="name" placeholder="Họ và tên">
 <input type="number" id="age" placeholder="Tuổi">
-<button onclick="nextStep(2)">Tiếp tục</button>
+
+<div class="question">
+<label>Giới tính</label>
+<div class="options">
+<label><input type="radio" name="gender" value="male"> Nam</label>
+<label><input type="radio" name="gender" value="female"> Nữ</label>
+</div>
+</div>
+
+<button onclick="nextStep()">Tiếp tục</button>
 </div>
 
 <!-- STEP 2 -->
 <div class="section" id="step2">
 <h2 id="hello"></h2>
-<label>Triệu chứng bắt đầu lúc nào?</label>
-<input type="text" id="time">
 
-<label>Có yếu/tê một bên người không?</label>
-<select id="weak"><option>Không</option><option>Có</option></select>
+<div id="questions"></div>
 
-<label>Có nói khó hoặc méo miệng không?</label>
-<select id="speech"><option>Không</option><option>Có</option></select>
-
-<button onclick="nextStep(3)">Tiếp tục</button>
-</div>
-
-<!-- STEP 3 -->
-<div class="section" id="step3">
-<h2>Tiền sử bệnh lý</h2>
-<select id="bp"><option value="0">Không tăng huyết áp</option><option value="1">Có tăng huyết áp</option></select>
-<select id="diabetes"><option value="0">Không tiểu đường</option><option value="1">Có tiểu đường</option></select>
-<select id="cholesterol"><option value="0">Không rối loạn mỡ máu</option><option value="1">Có rối loạn mỡ máu</option></select>
-<select id="smoke"><option value="0">Không hút thuốc</option><option value="1">Có hút thuốc</option></select>
 <button onclick="diagnose()">Phân tích kết quả</button>
 </div>
 
 <!-- RESULT -->
 <div class="section" id="result">
 <h2>Kết quả đánh giá</h2>
-<div id="resultContent"></div>
+
+<div class="circle" id="riskCircle">0%</div>
+
+<div id="resultText" style="line-height:1.7;margin-top:20px"></div>
+
 <div class="notice">
 LƯU Ý: Đây chỉ là chuẩn đoán sàng lọc ban đầu. Cần đến cơ sở y tế để được thăm khám và chẩn đoán chính xác.
 </div>
-<button onclick="nextStep(5)">Next</button>
+
+<button onclick="goThank()">Next</button>
 </div>
 
 <!-- THANK YOU -->
-<div class="section" id="step5">
-<h2>Cảm ơn bạn đã sử dụng hệ thống</h2>
-<p>
-Chăm sóc sức khỏe là một quá trình lâu dài. Hãy duy trì chế độ ăn ít muối, hạn chế chất béo bão hòa và đường tinh luyện. 
-Tăng cường rau xanh, cá, ngũ cốc nguyên hạt và uống đủ nước mỗi ngày. 
-Ngủ đủ 7–8 giờ/đêm và kiểm soát căng thẳng bằng các hoạt động như thiền hoặc thể thao nhẹ nhàng. 
-Đặc biệt, hãy kiểm tra huyết áp định kỳ và tuân thủ điều trị nếu có bệnh nền. 
-Phòng ngừa sớm luôn là chìa khóa bảo vệ não bộ và tim mạch của bạn.
+<div class="section" id="thank">
+<div class="thank">
+<h2>Cảm ơn</h2>
+<p style="line-height:1.8">
+Việc chủ động kiểm tra sức khỏe là một bước rất quan trọng trong phòng ngừa đột quỵ. 
+Bạn nên duy trì chế độ ăn giảm muối, hạn chế chất béo bão hòa và đường tinh luyện. 
+Tăng cường rau xanh, trái cây tươi, cá và ngũ cốc nguyên hạt. 
+Tập thể dục tối thiểu 30 phút mỗi ngày, duy trì cân nặng hợp lý và ngủ đủ 7–8 giờ mỗi đêm. 
+Kiểm soát tốt huyết áp, đường huyết và lipid máu theo hướng dẫn của bác sĩ. 
+Tránh hút thuốc lá và hạn chế rượu bia. 
+Khám sức khỏe định kỳ giúp phát hiện sớm các yếu tố nguy cơ và can thiệp kịp thời, giảm thiểu biến chứng nguy hiểm.
 </p>
 </div>
-
-<div class="footer">
-© 2026 Hệ thống sàng lọc nguy cơ đột quỵ
 </div>
 
 </div>
 
 <script>
-let current=1;
+let score=0;
 
-function updateBar(step){
-document.getElementById("bar").style.width=(step-1)*25+"%";
-}
+const questionList=[
+"Yếu hoặc liệt một bên cơ thể",
+"Rối loạn ngôn ngữ (nói khó, nói ngọng)",
+"Tiền sử tăng huyết áp",
+"Tiền sử đái tháo đường",
+"Rối loạn lipid máu",
+"Bệnh tim mạch (rung nhĩ, suy tim...)",
+"Tiền sử tai biến mạch máu não trước đó",
+"Hút thuốc lá",
+"Ít vận động thể lực",
+"Thừa cân hoặc béo phì"
+];
 
-function nextStep(step){
-document.getElementById("step"+current)?.classList.remove("active");
-current=step;
-document.getElementById("step"+step)?.classList.add("active");
-updateBar(step);
-if(step==2){
+function nextStep(){
 let name=document.getElementById("name").value;
-document.getElementById("hello").innerText="Chào "+name+", vui lòng cung cấp thêm thông tin:";
-}
+if(name===""){alert("Vui lòng nhập tên");return;}
+document.getElementById("step1").classList.remove("active");
+document.getElementById("step2").classList.add("active");
+document.getElementById("hello").innerText="Chào "+name+", vui lòng chọn các tình trạng hiện có:";
+let html="";
+questionList.forEach((q,i)=>{
+html+=`
+<div class="question">
+<label>${q}</label>
+<div class="options">
+<label><input type="radio" name="q${i}" value="1"> Có</label>
+<label><input type="radio" name="q${i}" value="0" checked> Không</label>
+</div>
+</div>`;
+});
+document.getElementById("questions").innerHTML=html;
 }
 
 function diagnose(){
-let name=document.getElementById("name").value;
-let score=0;
-if(document.getElementById("weak").value==="Có")score+=2;
-if(document.getElementById("speech").value==="Có")score+=2;
-score+=parseInt(document.getElementById("bp").value);
-score+=parseInt(document.getElementById("diabetes").value);
-score+=parseInt(document.getElementById("cholesterol").value);
-score+=parseInt(document.getElementById("smoke").value);
+score=0;
+questionList.forEach((q,i)=>{
+score+=parseInt(document.querySelector('input[name="q'+i+'"]:checked').value);
+});
+let age=parseInt(document.getElementById("age").value);
+if(age>55)score+=2;
 
-document.getElementById("step3").classList.remove("active");
+let gender=document.querySelector('input[name="gender"]:checked')?.value;
+if(gender==="male")score+=1;
+
+let percent=Math.min(100,score*7);
+
+document.getElementById("step2").classList.remove("active");
 document.getElementById("result").classList.add("active");
-updateBar(4);
 
-let content=document.getElementById("resultContent");
+animateCircle(percent);
+
 let text="";
-let level="low";
-
-if(score<=2){
-level="low";
-text=name+", các yếu tố bạn cung cấp cho thấy nguy cơ hiện tại ở mức thấp. Tuy nhiên, đột quỵ có thể xảy ra nếu các yếu tố nguy cơ không được kiểm soát tốt. Bạn nên duy trì lối sống lành mạnh, ăn giảm muối, kiểm soát cân nặng, tập thể dục ít nhất 30 phút mỗi ngày và kiểm tra sức khỏe định kỳ. Việc phát hiện sớm các rối loạn huyết áp hoặc đường huyết sẽ giúp phòng ngừa hiệu quả trong tương lai.";
+if(percent<30){
+text="Nguy cơ hiện tại ở mức thấp. Tuy nhiên, việc duy trì lối sống lành mạnh và kiểm soát các yếu tố nguy cơ là vô cùng quan trọng...";
 }
-else if(score<=4){
-level="medium";
-text=name+", bạn đang có một số yếu tố nguy cơ đáng chú ý. Đặc biệt nếu xuất hiện yếu liệt hoặc nói khó, bạn cần theo dõi sát sao. Việc kiểm tra chuyên sâu tại cơ sở y tế là cần thiết để đánh giá chính xác tình trạng mạch máu não. Đồng thời cần điều chỉnh chế độ ăn uống, hạn chế thuốc lá và kiểm soát bệnh nền chặt chẽ nhằm giảm nguy cơ biến chứng.";
+else if(percent<60){
+text="Nguy cơ ở mức trung bình. Bạn nên đến cơ sở y tế để kiểm tra chuyên sâu hệ tim mạch và mạch máu não...";
 }
 else{
-level="high";
-text=name+", các dấu hiệu và tiền sử bệnh lý cho thấy nguy cơ đột quỵ cao. Nếu triệu chứng xuất hiện đột ngột như méo miệng, yếu một bên người hoặc nói khó, bạn cần đến bệnh viện ngay lập tức vì thời gian vàng điều trị rất quan trọng. Việc can thiệp sớm có thể giảm đáng kể tổn thương não và tăng khả năng phục hồi. Tuyệt đối không trì hoãn thăm khám.";
+text="Nguy cơ cao. Nếu xuất hiện dấu hiệu đột ngột như méo miệng, yếu liệt hoặc nói khó, cần đến bệnh viện ngay lập tức...";
 }
 
-content.innerHTML="<div class='result-box "+level+"'>"+text+"</div>";
+document.getElementById("resultText").innerText=text;
+}
+
+function animateCircle(percent){
+let circle=document.getElementById("riskCircle");
+let deg=percent*3.6;
+circle.style.background=`conic-gradient(#0f9d58 ${deg}deg,#e0e0e0 0deg)`;
+circle.innerText=percent+"%";
+}
+
+function goThank(){
+document.getElementById("result").classList.remove("active");
+document.getElementById("thank").classList.add("active");
 }
 </script>
 
